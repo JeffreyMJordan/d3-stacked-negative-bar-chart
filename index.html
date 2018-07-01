@@ -45,7 +45,15 @@
         .attr("y", function(d){return yAxis(d[1])})
         .attr("height", function(d){return yAxis(d[0]) - yAxis(d[1])})
       
+      svg.append("g")
+        .attr("transform", `translate(0 ,${yAxis(0)})`)
+        .call(d3.axisBottom(xAxis));
 
+      svg.append("g")
+        .attr("transform", `translate( 50,0)`)
+        .call(d3.axisLeft(yAxis));
+
+      
 
 
       function minMax(data){
