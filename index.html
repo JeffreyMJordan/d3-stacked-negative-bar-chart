@@ -28,8 +28,22 @@
       let dataMinMax = minMax(data);
       let yAxis = d3.scaleLinear()
         .domain([dataMinMax.min, dataMinMax.max])
-        .range([height - 50, 50]);
+        .rangeRound([height - 50, 50]);
 
+      let colorScale = d3.scaleOrdinal(d3.schemeCategory20);
+
+      svg.append("g")
+        .selectAll("g")
+        .data(stacks)
+        .enter().append("g")
+        .attr("fill", function(d){ return colorScale(d.key)})
+        .selectAll("rect")
+        .data(function(d){ return d})
+        .enter().append("rect")
+        .attr("width", xAxis.bandwidth)
+        .attr("x", function(d){return xAxis(d.data.month)})
+        .attr("y", function(d){return yAxis(d[1])})
+        .attr("height", function(d){return yAxis(d[0]) - yAxis(d[1])})
       
 
 
