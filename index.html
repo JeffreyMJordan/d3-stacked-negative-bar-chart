@@ -20,11 +20,43 @@
         .offset(d3.stackOffsetDiverging)
         (data);
 
-      
-        // .rangeRound([50, width -50])
-        // .padding(0.2);
+      let xAxis = d3.scaleBand()
+        .domain(data.map((el) => el.month))
+        .rangeRound([50, width -50])
+        .padding(0.2);
+
+      let dataMinMax = minMax(data);
+      let yAxis = d3.scaleLinear()
+        .domain([dataMinMax.min, dataMinMax.max])
+        .range([height - 50, 50]);
 
       
+
+
+
+      function minMax(data){
+        let min = Infinity;
+        let max = Number.NEGATIVE_INFINITY;
+        data.forEach(datum => {
+          let highest = 0;
+          let lowest = 0;
+          Object.values(datum).forEach(value => {
+            if(value>0){
+              highest += value;
+            }else if(value<0){
+              lowest += value;
+            }
+          });
+          if(lowest < min){
+            min = lowest;
+          }
+          if(highest>max){
+            max = highest;
+          }
+        });
+
+        return {max: max, min: min};
+      }
     });
   </script>
 </head>
